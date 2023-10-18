@@ -1,0 +1,68 @@
+<form class="form-container" [formGroup]="citaForm" (ngSubmit)="modoEdicion ? actualizarCita(citaForm.value) : agregarCita(citaForm.value)">
+  <label for="titulo" class="truncate-text bold-label">Título:</label>
+  <input id="titulo" formControlName="titulo" placeholder="Título" />
+  <div *ngIf="citaForm.get('titulo')?.hasError('required') && citaForm.get('titulo')?.touched" class="error-message">
+    Título es requerido.
+  </div>
+
+  <label for="fecha" class="truncate-text bold-label">Fecha:</label>
+  <input id="fecha" formControlName="fecha" type="date" />
+  <div *ngIf="citaForm.get('fecha')?.hasError('required') && citaForm.get('fecha')?.touched" class="error-message">
+    Fecha es requerida.
+  </div>
+
+  <label for="horario" class="truncate-text bold-label">Horario:</label>
+  <input id="horario" formControlName="horario" placeholder="Horario" />
+  <div *ngIf="citaForm.get('horario')?.hasError('required') && citaForm.get('horario')?.touched" class="error-message">
+    Horario es requerido.
+  </div>
+
+  <label for="nombreCliente" class="truncate-text bold-label">Nombre del Cliente:</label>
+  <input id="nombreCliente" formControlName="nombreCliente" placeholder="Nombre del Cliente" />
+  <div *ngIf="citaForm.get('nombreCliente')?.hasError('required') && citaForm.get('nombreCliente')?.touched" class="error-message">
+    Nombre del Cliente es requerido.
+  </div>
+
+  <label for="doctorResponsable" class="truncate-text bold-label">Doctor Responsable:</label>
+  <input id="doctorResponsable" formControlName="doctorResponsable" placeholder="Doctor Responsable" />
+  <div *ngIf="citaForm.get('doctorResponsable')?.hasError('required') && citaForm.get('doctorResponsable')?.touched" class="error-message">
+    Doctor Responsable es requerido.
+  </div>
+
+  <button type="submit" [disabled]="citaForm.invalid">{{ modoEdicion ? 'Actualizar' : 'Agregar' }}</button>
+  <button class="cancelButton" *ngIf="modoEdicion">Cancelar</button>
+</form>
+
+
+
+
+
+<!-- Mostrar la lista de citas -->
+<div class="citas citas-container" >
+  <div style="text-align: center;" *ngIf="citas.length < 1">
+      <strong> Actualmente no hay citas</strong>
+  </div>
+  <ul *ngIf="citas.length > 0" class="cita-list">
+    <li *ngFor="let cita of citas; let i = index" class="cita-item">
+      <div class="cita-list-row">
+        <span class="truncate-text">Detalle: {{ cita.titulo }}</span>
+      </div>
+      <div class="cita-list-row">
+        <span class="truncate-text">Fecha: {{ cita.fecha | date:'shortDate' }}</span>
+      </div>
+      <div class="cita-list-row">
+        <span class="truncate-text">Horario: {{ cita.horario}}</span>
+      </div>
+      <div class="cita-list-row">
+        <span class="truncate-text">Nombre del cliente: {{ cita.nombreCliente}}</span>
+      </div>
+      <div class="cita-list-row">
+        <span class="truncate-text">Doctor Responsable: {{ cita.doctorResponsable}}</span>
+      </div>
+      <div class="cita-list-row">
+        <button class="button-editar" (click)="editarCita(i)">Editar</button>
+        <button (click)="eliminarCita(i)">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+</div>
